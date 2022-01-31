@@ -1,15 +1,13 @@
 const fs = require('fs');
+const {json} = require("express");
 
 const modifier = {
     get: (id) => {
-        fs.readFile('tasks.json', 'utf8', (err, data) => {
-                if (err) console.log(err);
-                else {
-                    const jsonFile = JSON.parse(data);
-                    console.log(jsonFile[id - 1])
-                }
-            }
-        );
+        let data = fs.readFileSync('tasks.json', (err, data) => {
+            if (err) console.log(err);
+        });
+        let jsonFile = JSON.parse(data);
+        return jsonFile[id - 1]
     },
 
     add: (task) => {
@@ -29,8 +27,6 @@ const modifier = {
                 }
             }
         )
-
-        //task.id = tasks.length + 1;
     },
 
     delete: (id) => {
@@ -50,7 +46,9 @@ const modifier = {
     }
 }
 
-modifier.add({a: "a", b: 'b'})
+console.log(modifier.get(2));
+modifier.get(2);
+module.exports = modifier;
 
 
 
